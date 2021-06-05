@@ -126,6 +126,21 @@ void Vector<T>::pop_back()
 }
 
 template<typename T>
+void Vector<T>::popByIndex(size_t index) 
+{
+    if(isEmpty())
+    {
+        std::cout << "The vector is empty!" << std::endl;
+		return;
+    }
+
+	for (size_t i = index; i < size; ++i) {
+		this->data[i] = this->data[i + 1];
+	}
+	--size;
+}
+
+template<typename T>
 void Vector<T>::print() const 
 {
 	for (size_t i = 0; i < size; i++) 

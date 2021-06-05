@@ -16,16 +16,7 @@ String User::normalizeName(String other)
 }
 
 User::User()
-{
-    isAdmin = false;
-}
-
-User::User(const String _username, const String _password, bool _isAdmin) //Трябва ли ми изобщо
-{
-    username = _username;
-    password = _password;
-    isAdmin = _isAdmin;
-}
+{}
 
 
 User::User(const String _username, const String _password)
@@ -41,7 +32,6 @@ User& User::operator=(const User& other)
     {
         username = other.username;
         password = other.password;
-        isAdmin = other.isAdmin;
     }
     return *this;
 }
@@ -55,34 +45,6 @@ String User::getPassword() const
 {
     return password;
 }
-
-void User::setAdmin(bool _isAdmin)  // const bool _isAdmin??
-{
-    isAdmin = _isAdmin;
-}
-
-bool User::getIsAdmin() const
-{
-    return isAdmin;
-}
-
-bool User::getLogin() const
-{
-    return login;
-}
-
-/*
-bool User::isAdminn(String username, String password)
-{
-    if(username == "admin" && password == "i<3c++")
-    {
-        isAdmin = true;
-        return isAdmin;
-        //return true;
-    }
-    return isAdmin;
-}
-*/
 
 
 void User::addToFile(const char* fileName)
@@ -98,13 +60,13 @@ void User::addToFile(const char* fileName)
 std::ostream& operator<<(std::ostream& out, const User& c)
 {   
 
-    out << c.getUsername() << ' ' << c.getPassword() << std::boolalpha << c.getIsAdmin() << std::endl;
-    //out << c.getUsername() << ' ' << c.getPassword() << std::endl;
+    //out << c.getUsername() << ' ' << c.getPassword() << std::boolalpha << c.getIsAdmin() << std::endl;
+    out << c.getUsername() << ' ' << c.getPassword() << std::endl;
     //out << c.getUsername() << ' ' << std::boolalpha << c.getIsAdmin() << std::endl;
     return out;
 }
 
-void users_add(String username, String password)
+void users_add(String username, String password)  //Може би не трябва да е тук, защото нямам проверки за login и isAdmin
 {
     //login
 

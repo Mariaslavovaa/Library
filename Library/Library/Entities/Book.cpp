@@ -12,7 +12,7 @@ void Book::copy(const Book& other)
 	year = other.year;
 	keyword = other.keyword;
 	rating = other.rating;
-	//uniqueNum = other.uniqueNum;   // Не съм сигурна дали трябва да го има
+	unique = other.Id;   // Не съм сигурна дали трябва да го има
 }
 
 String Book::normalizeName(String other)
@@ -29,25 +29,9 @@ String Book::normalizeName(String other)
 
 Book::Book()
 {
-	year = 0;
+	year = 0;    //Трябва ли да я занулявам???
 	rating = 0;
 }
-
-/*
-Book::Book(const String _author, const String _title, const String _genre, const String _description, 
-const unsi _year, const String _keyword, const double _rating, const unsi _uniqueNumber)
-{
-	author = _author;
-	title = _title;
-	genre = _genre;
-	description = _description;
-	year = _year;
-	keyword = _keyword;
-	rating = _rating;
-	uniqueNumber = _uniqueNumber;
-}
-*/
-//------- Не знам уникалния номер как да го направя / май нещо със статик променлива??? 
 
 Book::Book(const String _author, const String _title, const String _genre, const String _description, 
 const unsi _year, const String _keyword, const double _rating)
@@ -60,15 +44,15 @@ const unsi _year, const String _keyword, const double _rating)
 	keyword = _keyword;
 	rating = _rating;
 
-	//uniqueNum++;
-}
+	unique = Id++;
 
+	//Id++;
+}
 
 Book::Book(const Book& other)
 {
 	copy(other);
 }
-
 
 Book& Book::operator=(const Book& other)
 {
@@ -108,12 +92,14 @@ double Book::getRating() const
 	return rating;
 }
 
-unsi Book::getUniqueNumber() const  // ------  ??????????
+unsi Book::getId() const  // ------  ??????????
 {
-	return uniqueNum;
+	return unique;
 }
 
-void Book::print() const{
+void Book::print() const
+{
+	std::cout << unique << std::endl;   //смених Id c unique
 	std::cout << author << std::endl;
 	std::cout << title << std::endl;
 	std::cout << genre << std::endl;
@@ -121,8 +107,15 @@ void Book::print() const{
 	std::cout << year << std::endl;
 	std::cout << keyword << std::endl;
 	std::cout << rating << std::endl;
-	std::cout << uniqueNum << std::endl;
 	std::cout << std::endl;
+}
+
+void Book::printAllBooks()   //Id първо или последно?????
+{
+	std::cout << title << std::endl;
+	std::cout << author << std::endl;
+	std::cout << genre << std::endl;
+	std::cout << unique << std::endl;  //смених Id c unique
 }
 
 void Book::addToFile(const char* fileName)
@@ -134,9 +127,9 @@ void Book::addToFile(const char* fileName)
 	String normalizedDescr = normalizeName(description);
 	String normalizedKw = normalizeName(keyword);
 
-	uniqueNum++; // ------- ?????
+	//Id++; // ------- ?????
 
-	output << uniqueNum  << ' ' << normalizedName << ' ' << normalizedTitle << ' ' << normalizedGenre 
+	output << unique  << ' ' << normalizedName << ' ' << normalizedTitle << ' ' << normalizedGenre 
 	<< ' ' << normalizedDescr << ' ' << year << ' ' << normalizedKw << ' ' << rating << std::endl;
 	output.close();
 
@@ -144,49 +137,48 @@ void Book::addToFile(const char* fileName)
 
 std::ostream& operator<<(std::ostream& out, const Book& b)
 {   
-    out << b.author << ' ' << b.title << ' ' << b.genre << ' ' << b.description << ' ' 
-	<< b.year << ' ' << b.keyword << ' ' << b.rating << ' ' << b.uniqueNum << std::endl;
+    out << b.unique << ' ' << b.author << ' ' << b.title << ' ' << b.genre << ' ' << b.description 
+	<< ' ' << b.year << ' ' << b.keyword << ' ' << b.rating << std::endl;
     return out;
 }
-
-std::istream& operator>>(std::istream& in, Book& book) {
+/*
+std::istream& operator>>(std::istream& in, Book& b) {
+	std::cout << "Unique number: ";
+	in >> b.Id;
 	std::cout << "Author: ";
-	in >> book.author;
+	in >> b.author;
 	std::cout << "Title: ";
-	in >> book.title;
-	std::cout << "genre: ";
-	in >> book.genre;
-	std::cout << "description: ";
-	in >> book.description;
-	std::cout << "date of release: ";
-	in >> book.year;
-	std::cout << "tags: ";
-	in >> book.keyword;
-	std::cout << "rating: ";
-	in >> book.rating;
-	std::cout << "serial number: ";
-	in >> book.uniqueNum;
+	in >> b.title;
+	std::cout << "GSenre: ";
+	in >> b.genre;
+	std::cout << "Description: ";
+	in >> b.description;
+	std::cout << "Year: ";
+	in >> b.year;
+	std::cout << "Keyword: ";
+	in >> b.keyword;
+	std::cout << "Rating: ";
+	in >> b.rating;
+
 	return in;
 }
-
-void Book::load(const char* fileName) {
-	//std::ifstream input(fileName, std::ios::app);
+*/
+void Book::load(const char* fileName) 
+{
 	std::ifstream input(fileName);
-	//std::ifstream& iFile
-	//iFile >> *this;
-
 	Vector<Book> books;
 
 	while(!input.eof())
 	{
-	input >> uniqueNum >> author >> title >> genre >> description >> year >> keyword >> rating;
-	Book b(author, title, genre, description, year, keyword, rating);
-	//input >> *this;
-	books.push_back(b);
-	books.print();
+		char author[50], title[50], genre[50], description[100], keyword[20];
+		input >> Id >> author >> title >> genre >> description >> year >> keyword >> rating;
+		Book b(author, title, genre, description, year, keyword, rating);
+		books.push_back(b);
 	}
+	books.print();
 	input.close();
 }
+
 /*
 void books_add()
 {
@@ -194,20 +186,22 @@ void books_add()
 }*/
 
 /*
-void updateFile(Book &p)
-{
-    std::ifstream input("books.mrs");
-    char row[70];
-    while(!input.eof())
-    {
-        input.getline(row , 70);
-		input >> author;
+	//std::ifstream input(fileName, std::ios::app);
+	//std::ifstream& iFile
+	//iFile >> *this;
 
+	void updateFile(Book &p)
+	{
+    	std::ifstream input("books.mrs");
+    	char row[70];
+    	while(!input.eof())
+    	{
+    	    input.getline(row , 70);
+			input >> author;
+
+		}
 	}
-}
-*/
-
-/*
+	
 	while(!input.eof())
     {
         input >> number >> name >> title >> Genre >> price;
@@ -215,20 +209,45 @@ void updateFile(Book &p)
 		books.pushback(b);
 		books.print();
 	}
+	
 */
 
 
+/*
 int main()
 {
+	
 	//Book d;
-	Book d2("Peshko", "iznaglqva", "drama", "shte bichi", 2021, "dosta neshta", 5);
-    Book d("MIMI", "Poludqva", "drama", "Ne znae kakvo shte pravi", 2021, "neshto", 2.4);
+	Book d("Peshko", "iznaglqva", "drama", "shte bichi", 2021, "dosta neshta", 5);
+	Book d2("Fifi", "iznasq", "film", "ailqk", 2001, "i sq kvo", 3.59);
 	Book d3("MS", "Bibibi", "drama queen", "Ne znae kakvo shte pravi veche", 2021, "neshto nishto", 2.4);
-	//d.addToFile("books.mrs");
-	//d2.addToFile("books.mrs");
+	Book d21("Peshko", "iznaglqva", "drama", "shte bichi", 2021, "dosta neshta", 5);
+    Book d31("Maria", "Izchatka", "pusna mi", "Ne znae kakvo shte pravi", 2021, "nishto", 2.1);
+	Book d11("MSS", "nimibi", "drama", "Shte ima 2", 2021, "nishto nishto", 2.0);
+	d.addToFile("books.mrs");
+	d2.addToFile("books.mrs");
 	d3.addToFile("books.mrs");
+	d21.addToFile("books.mrs");
+	d31.addToFile("books.mrs");
+	d11.addToFile("books.mrs");
 
 	//d.load("books.mrs");
 	//d2.load("books.mrs");
-}
 
+	
+	Book d21("Peshko", "iznaglqva", "drama", "shte bichi", 2021, "dosta neshta", 5);
+    Book d11("Maria", "Izchatka", "pusna mi", "Ne znae kakvo shte pravi", 2021, "nishto", 2.1);
+	Book d31("MSS", "nimibi", "drama", "Shte ima 2", 2021, "nishto nishto", 2.0);
+	Book d2("Fifi", "iznasq", "film", "ailqk", 2001, "i sq kvo", 3.59);
+    Book d("MIMI", "Poludqva", "drama", "Ne znae kakvo shte pravi", 2021, "neshto", 2.4);
+	Book d3("MS", "Bibibi", "drama queen", "Ne znae kakvo shte pravi veche", 2021, "neshto nishto", 2.4);
+
+	std::cout << d21.getId() << std::endl;
+	std::cout << d11.getId() << std::endl;
+	std::cout << d31.getId() << std::endl;
+	std::cout << d.getId() << std::endl;
+	std::cout << d3.getId() << std::endl;
+	std::cout << d2.getId() << std::endl;
+	
+}
+*/

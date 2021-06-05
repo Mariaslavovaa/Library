@@ -16,13 +16,14 @@ class Book
     unsi year;
     String keyword;
     double rating;
+    unsi unique;
 
     void copy(const Book& other);
     String normalizeName(String other);  //    String normalizeName(const String other);  това пишеше преди
 
     public:
 
-    static unsi uniqueNum;  //уникален номер за библиотеката
+    static unsi Id;  //уникален номер за библиотеката
 
     Book();
     Book(const String _author, const String _title, const String _genre, const String _description, 
@@ -37,9 +38,10 @@ class Book
     unsi getYear() const;
     String getKeyword() const;
     double getRating() const;
-    unsi getUniqueNumber() const;  // май е ненужен, защото uniqueNum е public????????????//
+    unsi getId() const;  
 
     void print() const;
+    void printAllBooks();
     void addToFile(const char* fileName);
     void load(const char* fileName);
 
@@ -47,7 +49,7 @@ class Book
     friend std::istream& operator>>(std::istream& in, Book& book);
 };
 
-unsi Book::uniqueNum = 0;
+unsi Book::Id = 0;
 
 
 

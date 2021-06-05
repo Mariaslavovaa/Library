@@ -19,6 +19,7 @@ class String
 	String(const char* other);
 	~String();
 	String& operator=(const String& other);
+	const bool operator==(const String& other);
 	const bool operator==(const char* other);
 
 	char operator[](unsi i) const; 

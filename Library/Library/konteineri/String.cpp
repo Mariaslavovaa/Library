@@ -78,6 +78,23 @@ String& String::operator=(const String& other)
 	return *this;
 }
 
+const bool String::operator==(const String& other)
+{
+    if(this->getSize() != other.getSize())
+    {
+        return false;
+    }
+
+    for (size_t i = 0; i < this->getSize(); i++)
+    {
+        if (data[i] != other[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 const bool String::operator==(const char* other)
 {
     unsi size = 0;

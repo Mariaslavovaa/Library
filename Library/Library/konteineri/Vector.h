@@ -27,6 +27,7 @@ class Vector
 //--------------------------------------------
     void push_back(const T& newElement);
     void pop_back();
+    void popByIndex(size_t index);
 //--------------------------------------------
     void print() const;
 
