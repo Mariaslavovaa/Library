@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector.h"
 #include <iostream>
+#include <exception>
 
 template<typename T>
 void Vector<T>::resize()
@@ -92,8 +93,21 @@ T Vector<T>::operator[](size_t index) const
     }
     else
     {
-        std::cout << "Invalid index!";
-        return;
+        throw std::out_of_range("Invalid index!");
+    }
+}
+
+template<typename T>
+T& Vector<T>::operator[](size_t index)
+{
+    if (index < size)
+    {
+        return data[index];
+    }
+    else
+    {
+        std::cout<<"Invalid index: " << index;
+        throw;
     }
 }
 
@@ -145,6 +159,6 @@ void Vector<T>::print() const
 {
 	for (size_t i = 0; i < size; i++) 
     {
-		std::cout << data[i] << ' ';
+		std::cout << data[i];
 	}
 }

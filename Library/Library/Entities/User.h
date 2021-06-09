@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "..\konteineri\String.cpp"
+#include "..\containers\String.cpp"
 #include "User.cpp"  
 
 class User

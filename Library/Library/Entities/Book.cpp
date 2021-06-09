@@ -5,19 +5,20 @@
 
 void Book::copy(const Book& other)
 {
-	author = other.author;
-	title = other.title;
-	genre = other.genre;
-	description = other.description;
-	year = other.year;
-	keyword = other.keyword;
-	rating = other.rating;
-	unique = other.Id;   // Не съм сигурна дали трябва да го има
+	this->author = other.author;
+	this->title = other.title;
+	this->genre = other.genre;
+	this->description = other.description;
+	this->year = other.year;
+	this->keyword = other.keyword;
+	this->rating = other.rating;
+	this->unique = other.unique;
 }
 
 String Book::normalizeName(String other)
 {
-	for (size_t i = 0; i < other.getSize(); i++)
+    size_t n = other.getSize();
+    for (size_t i = 0; i < n; i++)
     {
 		if(other[i] == ' ')
         {
@@ -67,9 +68,36 @@ String Book::getAuthor() const
 {
 	return author;
 }
+
+char* Book::getCharAuthor() const
+{
+	size_t size = author.getSize();
+	char *arr = new char[size + 1];
+	
+	for (size_t i = 0; i < size; i++)
+	{
+		arr[i] = author[i];
+	}
+	arr[size] = '\0';
+	return arr;
+}
+
 String Book::getTitle() const
 {
 	return title;
+}
+
+char* Book::getCharTitle() const
+{
+	size_t size = title.getSize();
+	char *arr = new char[size + 1];
+	
+	for (size_t i = 0; i < size; i++)
+	{
+		arr[i] = title[i];
+	}
+	arr[size] = '\0';
+	return arr;
 }
 String Book::getGenre() const
 {
@@ -92,30 +120,29 @@ double Book::getRating() const
 	return rating;
 }
 
-unsi Book::getId() const  // ------  ??????????
+unsi Book::getId() const  
 {
 	return unique;
 }
 
 void Book::print() const
 {
-	std::cout << unique << std::endl;   //смених Id c unique
-	std::cout << author << std::endl;
-	std::cout << title << std::endl;
-	std::cout << genre << std::endl;
-	std::cout << description << std::endl;
-	std::cout << year << std::endl;
-	std::cout << keyword << std::endl;
+	std::cout << unique << " ";   //смених Id c unique
+	std::cout << author << " ";
+	std::cout << title << " ";
+	std::cout << genre << " ";
+	std::cout << description << " ";
+	std::cout << year << " ";
+	std::cout << keyword << " ";
 	std::cout << rating << std::endl;
-	std::cout << std::endl;
 }
 
-void Book::printAllBooks()   //Id първо или последно?????
+void Book::printAllBooks() const  
 {
-	std::cout << title << std::endl;
-	std::cout << author << std::endl;
+	std::cout << unique << " ";   //смених Id c unique
+	std::cout << author << " ";
+	std::cout << title << " ";
 	std::cout << genre << std::endl;
-	std::cout << unique << std::endl;  //смених Id c unique
 }
 
 void Book::addToFile(const char* fileName)
@@ -224,15 +251,15 @@ int main()
 	Book d21("Peshko", "iznaglqva", "drama", "shte bichi", 2021, "dosta neshta", 5);
     Book d31("Maria", "Izchatka", "pusna mi", "Ne znae kakvo shte pravi", 2021, "nishto", 2.1);
 	Book d11("MSS", "nimibi", "drama", "Shte ima 2", 2021, "nishto nishto", 2.0);
-	d.addToFile("books.mrs");
-	d2.addToFile("books.mrs");
-	d3.addToFile("books.mrs");
-	d21.addToFile("books.mrs");
-	d31.addToFile("books.mrs");
-	d11.addToFile("books.mrs");
+	d.addToFile("..\\Files\\books.mrs");
+	d2.addToFile("..\\Files\\books.mrs");
+	//d3.addToFile("..\\Files\\books.mrs");
+	//d21.addToFile("..\\Files\\books.mrs");
+	//d31.addToFile("..\\Files\\books.mrs");
+	//d11.addToFile("..\\Files\\books.mrs");
 
-	//d.load("books.mrs");
-	//d2.load("books.mrs");
+	//d.load("..\\Files\\books.mrs");
+	//d2.load("..\\Files\\books.mrs");
 
 	
 	Book d21("Peshko", "iznaglqva", "drama", "shte bichi", 2021, "dosta neshta", 5);

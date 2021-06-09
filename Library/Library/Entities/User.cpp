@@ -5,7 +5,8 @@
 
 String User::normalizeName(String other)
 {
-    for (size_t i = 0; i < other.getSize(); i++)
+    size_t n = other.getSize();
+    for (size_t i = 0; i < n; i++)
     {
 		if(other[i] == ' ')
         {
@@ -66,26 +67,13 @@ std::ostream& operator<<(std::ostream& out, const User& c)
     return out;
 }
 
-void users_add(String username, String password)  //Може би не трябва да е тук, защото нямам проверки за login и isAdmin
-{
-    //login
-
-    /* if(getIsAdmin() == false)
-    {
-        std::cout << " трябва да има влезнал потребител " << std::endl;
-    }
-    */
-    //admin
-
-    
-}
 
 /*
 int main()
 {
     //User d;
-    User k("MIMI Slavova", "Poludqvaaa", 1);
-    k.addToFile("users.mrs");
-    //d.addToFile("users.mrs");
+    //User k("MIMI Slavova", "Poludqvaaa");
+    //k.addToFile("..\\Files\\users.mrs");
+    //d.addToFile("..\\Files\\users.mrs");
 }
 */

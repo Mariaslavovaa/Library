@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-#include "..\konteineri\String.cpp"
-#include "..\konteineri\Vector.cpp"
+#include "..\containers\String.cpp"
+#include "..\containers\Vector.cpp"
 #include "Book.cpp"
 
 using unsi = unsigned short int;
@@ -32,7 +32,11 @@ class Book
     Book& operator=(const Book& other);
 
     String getAuthor() const;
+    char* getCharAuthor() const;
+    
     String getTitle() const;
+    char* getCharTitle() const;
+
     String getGenre() const;
     String getDescription() const;
     unsi getYear() const;
@@ -41,7 +45,7 @@ class Book
     unsi getId() const;  
 
     void print() const;
-    void printAllBooks();
+    void printAllBooks() const;
     void addToFile(const char* fileName);
     void load(const char* fileName);
 

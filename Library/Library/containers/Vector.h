@@ -24,6 +24,7 @@ class Vector
     size_t getCapacity() const;
 //--------------------------------------------
     T operator[](size_t index) const;
+    T& operator[](size_t index);
 //--------------------------------------------
     void push_back(const T& newElement);
     void pop_back();

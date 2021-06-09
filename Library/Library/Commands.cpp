@@ -29,7 +29,7 @@ void help()
     std::cout << " books add                               adds a new book to the library " << std::endl;
     std::cout << " books remove <title>                    removes a book from the library with name <title>" << std::endl; 
     std::cout << " users add <user> <password>             add a new user with name <user> and password <password>  " << std::endl;
-    std::cout << " users remove                            deletes user with name <user>  " << std::endl;
+    std::cout << " users remove <user>                     deletes user with name <user>  " << std::endl;
 }
 
 /*
@@ -46,5 +46,5 @@ void exit()  //
 	//std::cout << "THANK YOU! BBYE" << std::endl;
 	//exit(1);
     std::cout << " Thank you! You left the program." << std::endl;
-    exit(0);
+    //exit(0);
 }

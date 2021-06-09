@@ -1,25 +1,27 @@
 #include <iostream>
-//#include "..\konteineri\Vector.cpp"
-//#include "..\konteineri\String.cpp"
-#include "konteineri\Vector.cpp"
-#include "konteineri\String.cpp"
+//#include "..\containers\Vector.cpp"
+//#include "..\containers\String.cpp"
+#include "containers\Vector.cpp"
+#include "containers\String.cpp"
 //#include <string>
 //#include <vector>
 #include <algorithm>
+#include <set>
 
-using std::cout; 
+//using std::cout; 
 //using std::sort;
 //using std::vector; 
 //using std::string;
-using std::endl;
+//using std::endl;
 
-int main() {
-    Vector<String> arr;
-    /* = { "raid ded", "implementation", "states", "all",
-                           "the", "requirements poppo", "parameter", "a",
-                           "and", "or", "execution", "participate",
-                           "and io", "oor", "execution", "participate aai" };
-        */
+void print(const String& item)
+{
+    std::cout << item << std::endl;
+}
+
+//int main() 
+//{
+    /*Vector<String> arr;
 
     arr.push_back("raid ded");
     arr.push_back("implementation");
@@ -39,6 +41,24 @@ int main() {
     arr.push_back("participate aai");
     arr.push_back("participate aa");
     arr.push_back("execution");
+
+    std::set<String> sortedItems;
+    size_t n = arr.getSize();
+    for (size_t i = 0; i < n; i++)
+    {
+        sortedItems.insert(arr[i]);
+    }
+
+    std::for_each(sortedItems.begin(), sortedItems.end(), &print); */
+
+
+    /* = { "raid ded", "implementation", "states", "all",
+                           "the", "requirements poppo", "parameter", "a",
+                           "and", "or", "execution", "participate",
+                           "and io", "oor", "execution", "participate aai" };
+        */
+
+
 /*
     for (const auto &item : arr) {
         cout << item << "; ";
@@ -51,8 +71,8 @@ int main() {
         cout << item << "; ";
     }
     cout << endl;
-    */
+*/
 
     //exit(EXIT_SUCCESS);
-    return 0;
-}
+//    return 0;
+//}
