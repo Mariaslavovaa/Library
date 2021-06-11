@@ -10,8 +10,10 @@
 class Library
 {
     private:
+    char fileName[60] = {'\0'};
     Vector<Book> books;
     Vector<User> users;
+    bool openedFile = false;
     bool loggedIn;
     bool isAmdminn;
 
@@ -23,6 +25,8 @@ class Library
     //}
 
     public:
+    void open();
+    void run();
     Library();
     Library(const Library& other);
     Library& operator=(const Library& other);

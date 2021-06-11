@@ -1,56 +1,15 @@
-#pragma once
 #include <iostream>
-#include "containers\Vector.cpp"
-#include "containers\String.cpp"
-//#include "Entities\Book.cpp"
-#include "Entities\User.cpp"
-#include <cstring>
+#include "Library.cpp"
 
-
-class StartUp
-{
-    private:
-    Vector<User> users;
-    bool isOpened;
-    public:
-
-    //loggedIn = true;
-    //isAmdminn = true;
-
-    void start()
-    {
-        User b("admin", "i<3c++");
-        users.push_back(b);
-
-        std::cout << "Hello! Please enter a command!" << std::endl;
-        String como;
-        char* command;
-        do
-        {
-            /*
-            if (strcmp(command, "open")
-            {
-                
-            }
-            else if (strcmp(command, "close")
-            {
-
-            }
-            else
-            {
-
-            }
-            */
-        
-        } while (strcmp(command, "exit") ); // command != "exit"
-    }
-}; 
-
-
-/*
 int main()
 {
-
+    Library l;
+    //l.login();
+    //l.books_add("MS", "Bibibi", "drama queen", "Ne znae kakvo shte pravi veche", 2021, "neshto nishto", 2.4);
+    //l.books_add("Peshko", "iznaglqva", "drama", "shte bichi", 2099, "dosta neshta", 5);
+    //l.books_add("Maria", "Akcentira", "pusna mi", "Ne znae kakvo shte pravi", 2021, "nishto", 2.1);
+    //l.books_add("Fifi", "iznasq", "film", "ailqk", 2001, "i sq kvo", 3.59);
+    //l.books_add("Maria", "Blago", "pusna mi", "Ne znae kakvo shte pravi", 2051, "nishto", 2.1);
+    l.run();
     return 0;
 }
-*/

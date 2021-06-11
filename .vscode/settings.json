@@ -48,6 +48,13 @@
         "vector": "cpp",
         "algorithm": "cpp",
         "set": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "chrono": "cpp",
+        "csignal": "cpp",
+        "map": "cpp",
+        "mutex": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp",
+        "thread": "cpp"
     }
 }

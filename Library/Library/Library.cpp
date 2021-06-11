@@ -2,11 +2,215 @@
 #include <cstring>
 #include "Library.h"
 #include <iostream>
+#include <fstream>
+#include "Commands.cpp"
+#include <cmath>
 //#include <cstring>
 //#include <cassert>
 //#include <fstream>
 //#include <exception>
 
+void Library::run()
+{
+    Command c;
+    char command[20] = {'\0'};
+    std::cout<<"                                            Library\n\n";
+    do
+    {
+        std::fill(std::begin(command), std::end(command), '\0');
+        std::cout<<"\n> ";
+        std::cin>>command;
+        
+        if(strcmp(command, "exit") == 0)
+            break;
+        
+        if(strcmp(command, "open") == 0)
+        {   
+            char fileNameFC[50];
+            std::cin>>fileNameFC;
+            strcpy(fileName, fileNameFC);
+            std::ifstream input(fileName);
+            if(input.good())
+            {
+                openedFile = true;
+                while(!input.eof())
+                {
+                    if(input.eof())
+                        break;
+                    int unique, year;
+                    char author[50], title[50], genre[20], description[100], keyword[20];
+                    double rating;
+                    input >> unique >> author >> title >> genre >> description >> year >> keyword >> rating;
+                    if(input.eof())
+                        break;
+                    Book b(author,title,genre,description, year,keyword,rating);
+                    books.push_back(b);
+                }
+            }
+            else std::cout<<"Could not open the file\n";
+
+        }
+            
+        else if(strcmp(command, "save") == 0)
+            {
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                {
+                    std::ofstream output(fileName, std::ios::trunc);
+                    for (size_t i = 0; i < books.getSize(); i++)
+                    {
+                        output << books[i];
+                    }
+                    output.close();
+                }
+            }
+
+        else if(strcmp(command, "saveas") == 0)
+            {
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                {
+                    char fileNameFC[50];
+                    std::cin>>fileNameFC;
+                    std::ofstream output(fileNameFC, std::ios::trunc);
+                    for (size_t i = 0; i < books.getSize(); i++)
+                    {
+                        output << books[i];
+                    }
+                    output.close();
+                }
+            }
+
+        else if(strcmp(command, "close") == 0)
+            {
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                
+                else
+                {
+                    std::cout<<"Do you want to save the changes? [y/n]: ";
+                    char answer;
+                    std::cin>>answer;
+                    if(answer == 'y' || answer == 'Y')
+                    {
+                        std::ofstream output(fileName,std::ios::trunc);
+                        for (size_t i = 0; i < books.getSize(); i++)
+                        {
+                            output << books[i];
+                        }
+                        output.close();
+                    }
+                }
+                openedFile = false;
+
+                books = Vector<Book>();
+                
+            }
+
+        else if(strcmp(command, "help") == 0)
+            c.help();
+
+        else if(strcmp(command, "login") == 0)
+            {
+                login();
+            }
+
+        else if(strcmp(command, "logout") == 0)
+            {
+                logout();
+            }
+
+        else if(strcmp(command, "books_all") == 0 || strcmp(command, "books_view") == 0)
+            {
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                    books_all();
+            }
+
+        else if(strcmp(command, "books_info") == 0)
+            {
+                int Id;
+                std::cin>>Id;
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                    books_info(abs(Id));
+            }
+
+        else if(strcmp(command, "books_find") == 0)
+            {
+                char option[50] = {'\0'};
+                char value[100] = {'\0'};
+                std::cin>>option;
+                std::cin>>value;
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                    books_find(option, value);
+            }
+
+        else if(strcmp(command, "books_sort") == 0) 
+            {
+                char option[10] = {'\0'};
+                char way[5] = {'\0'};
+                std::cin>>option>>way;
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                {
+                    if(way[0] == '\0')
+                        books_sort(option);
+                    else books_sort(option, way);
+                }
+            }
+
+        else if(strcmp(command, "users_add") == 0) 
+            {
+                char username[50] = {'\0'};
+                char password[50] = {'\0'};
+                std::cin>>username>>password;
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                    users_add(username, password);
+            }
+
+        else if(strcmp(command, "users_remove") == 0) 
+            {
+                char username[50] = {'\0'};
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                    users_remove(username);
+            }
+
+        else if(strcmp(command, "books_add") == 0) 
+            {
+                char author[50] = {'\0'}, title[50] = {'\0'}, genre[20] = {'\0'}, description[100] = {'\0'}, keyword[20] = {'\0'};
+                int year;
+                double rating;
+                std::cin>>author>>title>>genre>>description>>year>>keyword>>rating;
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                    books_add(author,title,genre,description,year,keyword,rating);
+            }
+
+        else if(strcmp(command, "books_remove") == 0)
+            {
+                char title[50] = {'\0'};
+                std::cin>>title;
+                if(!openedFile)
+                    std::cout<<"There isn't any opened file!\n";
+                else
+                    books_remove(title);
+            }
+
+    } while (strcmp(command, "exit") != 0);
+}
 
 String Library::normalizeName(String other)
 {
@@ -64,21 +268,40 @@ void Library::print()
 
 void Library::login()
 {
+    if (loggedIn)
+    {
+        std::cout <<  "You are already logged in." << std::endl;
+        return;
+    }
+
     char nameFF[32];
     std::cout << "Please, enter username: ";
-    std::cin.getline(nameFF, 32);  
+    std::cin>>nameFF;
     String name(nameFF);
 
     char passFF[32];
     std::cout << "Please, enter password: ";
-    std::cin.getline(passFF, 32);
+    std::cin>>passFF;
     String pass(passFF);
 
     if(name == "admin" && pass == "i<3c++")  
     {
         isAmdminn = true;
+        loggedIn = true;
+        return;
     }
     else isAmdminn = false;
+
+    std::ifstream input("Files\\users.mrs");
+    while(!input.eof())
+    {
+        char username[50], password[50];
+        input>>username>>password;
+        if(input.eof())
+            break;
+        User u(username, password);
+        users.push_back(u);
+    }
 
     size_t n = users.getSize();
     for (size_t i = 0; i < n; i++)
@@ -87,12 +310,10 @@ void Library::login()
         {
             std::cout << "Welcome, " << name << "!" << std::endl;
             loggedIn = true;
+            return;
         }
-        else std::cout << "You have entered an incorrect username or password!" << std::endl;
     }
-        //При повторен опит за login, се изкарва съобщение “You are already logged in.”
-        // КАК И КЪДЕ ТРЯБВА ДА ГО НАПИША???
-    
+    std::cout << "You have entered an incorrect username or password!" << std::endl;
 }
 
 void Library::logout()
@@ -114,6 +335,11 @@ void Library::books_all()
     if(loggedIn)
     {
         size_t n = books.getSize();
+        if(!n)
+        {
+            std::cout<<"There are no books yet!";
+            return;
+        }
         for (size_t i = 0; i < n; i++)
         {
             books[i].printAllBooks();
@@ -228,7 +454,7 @@ void Library::books_sort(const char* word, const char* type)
             }
         }
     }
-    else if (word == "author")
+    else if (strcmp(word, "author"))
     {
         for (size_t i = 0; i < n; i++)
         {
@@ -251,7 +477,7 @@ void Library::books_sort(const char* word, const char* type)
             }
         }
     }
-    else if (word == "year")
+    else if (strcmp(word, "year"))
     {
         for (size_t i = 0; i < n; i++)
         {
@@ -274,7 +500,7 @@ void Library::books_sort(const char* word, const char* type)
             }
         }
     }
-    else if (word == "rating")
+    else if (strcmp(word, "rating"))
     {
         for (size_t i = 0; i < n; i++)
         {
@@ -362,7 +588,6 @@ void Library::users_remove(String name)
     }
 }
 
-//std::cout << "Моля въведете заглавие, автор, и т.н.  ... "   Къде да го пиша това
 void Library::books_add(String _author, String _title, String _genre, String _description, unsi _year, String _keyword, double _rating)
 {
     if(!loggedIn)
@@ -388,7 +613,7 @@ void Library::books_add(String _author, String _title, String _genre, String _de
     }
     
     books.push_back(newBook);  // Koe??
-    newBook.addToFile("Files\\books.mrs");
+    newBook.addToFile(fileName);
     std::cout << "Book added successfully!" << std::endl;
 }
     
@@ -436,7 +661,7 @@ void Library::start()
 }
 
 
-int main()
+int main1()
 {
     /*
     Book d21("Peshko", "iznaglqva", "drama", "shte bichi", 2021, "dosta neshta", 5);

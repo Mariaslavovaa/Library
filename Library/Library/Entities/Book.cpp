@@ -127,7 +127,7 @@ unsi Book::getId() const
 
 void Book::print() const
 {
-	std::cout << unique << " ";   //смених Id c unique
+	std::cout << unique << " ";   
 	std::cout << author << " ";
 	std::cout << title << " ";
 	std::cout << genre << " ";
@@ -139,10 +139,10 @@ void Book::print() const
 
 void Book::printAllBooks() const  
 {
-	std::cout << unique << " ";   //смених Id c unique
-	std::cout << author << " ";
 	std::cout << title << " ";
-	std::cout << genre << std::endl;
+	std::cout << author << " ";
+	std::cout << genre << " ";
+	std::cout << unique << std::endl;
 }
 
 void Book::addToFile(const char* fileName)
@@ -205,12 +205,6 @@ void Book::load(const char* fileName)
 	books.print();
 	input.close();
 }
-
-/*
-void books_add()
-{
-	
-}*/
 
 /*
 	//std::ifstream input(fileName, std::ios::app);
