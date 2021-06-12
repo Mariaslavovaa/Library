@@ -24,7 +24,7 @@ String::String()
 {
 	this->capacity = 8;
 	this->size = 0;
-	this->data = nullptr;  //data = new char[capacity];
+	this->data = nullptr;  
 }
 
 String::String(const String& other)

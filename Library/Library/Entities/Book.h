@@ -19,7 +19,7 @@ class Book
     unsi unique;
 
     void copy(const Book& other);
-    String normalizeName(String other);  //    String normalizeName(const String other);  това пишеше преди
+    String normalizeName(String other);  
 
     public:
 
@@ -50,7 +50,6 @@ class Book
     void load(const char* fileName);
 
     friend std::ostream& operator<<(std::ostream& out, const Book& b);
-    friend std::istream& operator>>(std::istream& in, Book& book); ///???
 };
 
 unsi Book::Id = 0;

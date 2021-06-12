@@ -30,7 +30,7 @@ String Book::normalizeName(String other)
 
 Book::Book()
 {
-	year = 0;    //Трябва ли да я занулявам???
+	year = 0;    
 	rating = 0;
 }
 
@@ -154,7 +154,6 @@ void Book::addToFile(const char* fileName)
 	String normalizedDescr = normalizeName(description);
 	String normalizedKw = normalizeName(keyword);
 
-	//Id++; // ------- ?????
 
 	output << unique  << ' ' << normalizedName << ' ' << normalizedTitle << ' ' << normalizedGenre 
 	<< ' ' << normalizedDescr << ' ' << year << ' ' << normalizedKw << ' ' << rating << std::endl;
@@ -168,28 +167,7 @@ std::ostream& operator<<(std::ostream& out, const Book& b)
 	<< ' ' << b.year << ' ' << b.keyword << ' ' << b.rating << std::endl;
     return out;
 }
-/*
-std::istream& operator>>(std::istream& in, Book& b) {
-	std::cout << "Unique number: ";
-	in >> b.Id;
-	std::cout << "Author: ";
-	in >> b.author;
-	std::cout << "Title: ";
-	in >> b.title;
-	std::cout << "GSenre: ";
-	in >> b.genre;
-	std::cout << "Description: ";
-	in >> b.description;
-	std::cout << "Year: ";
-	in >> b.year;
-	std::cout << "Keyword: ";
-	in >> b.keyword;
-	std::cout << "Rating: ";
-	in >> b.rating;
 
-	return in;
-}
-*/
 void Book::load(const char* fileName) 
 {
 	std::ifstream input(fileName);
@@ -205,34 +183,6 @@ void Book::load(const char* fileName)
 	books.print();
 	input.close();
 }
-
-/*
-	//std::ifstream input(fileName, std::ios::app);
-	//std::ifstream& iFile
-	//iFile >> *this;
-
-	void updateFile(Book &p)
-	{
-    	std::ifstream input("books.mrs");
-    	char row[70];
-    	while(!input.eof())
-    	{
-    	    input.getline(row , 70);
-			input >> author;
-
-		}
-	}
-	
-	while(!input.eof())
-    {
-        input >> number >> name >> title >> Genre >> price;
-		book b( number, name );
-		books.pushback(b);
-		books.print();
-	}
-	
-*/
-
 
 /*
 int main()

@@ -54,16 +54,11 @@ void User::addToFile(const char* fileName)
     
     String normalizedName = normalizeName(username);
     output << normalizedName << ' ' << getPassword() << std::endl;
-    //output << normalizedName << ' ' << getPassword() << ' ' << std::boolalpha << isAdmin << std::endl;  
-                                      //output << username << ' ' << password << std::endl;
-}                                     // не трябва ли някъде да записвам паролите??????? 
+}                                     
 
 std::ostream& operator<<(std::ostream& out, const User& c)
 {   
-
-    //out << c.getUsername() << ' ' << c.getPassword() << std::boolalpha << c.getIsAdmin() << std::endl;
     out << c.getUsername() << ' ' << c.getPassword() << std::endl;
-    //out << c.getUsername() << ' ' << std::boolalpha << c.getIsAdmin() << std::endl;
     return out;
 }
 

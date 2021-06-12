@@ -5,10 +5,6 @@
 #include <fstream>
 #include "Commands.cpp"
 #include <cmath>
-//#include <cstring>
-//#include <cassert>
-//#include <fstream>
-//#include <exception>
 
 void Library::run()
 {
@@ -22,17 +18,21 @@ void Library::run()
         std::cin>>command;
         
         if(strcmp(command, "exit") == 0)
+        {
+            std::cout << "Exiting the program..." << std::endl;
             break;
+        }
         
         if(strcmp(command, "open") == 0)
         {   
-            char fileNameFC[50];
-            std::cin>>fileNameFC;
-            strcpy(fileName, fileNameFC);
+            char _fileName[50];
+            std::cin>>_fileName;
+            strcpy(fileName, _fileName);
             std::ifstream input(fileName);
             if(input.good())
             {
                 openedFile = true;
+                std::cout << "File opened.\n" << std::endl;
                 while(!input.eof())
                 {
                     if(input.eof())
@@ -58,6 +58,8 @@ void Library::run()
                 else
                 {
                     std::ofstream output(fileName, std::ios::trunc);
+                    if(output.good())
+                        std::cout << "Successfully saved.\n" << std::endl;
                     for (size_t i = 0; i < books.getSize(); i++)
                     {
                         output << books[i];
@@ -75,6 +77,8 @@ void Library::run()
                     char fileNameFC[50];
                     std::cin>>fileNameFC;
                     std::ofstream output(fileNameFC, std::ios::trunc);
+                    if(output.good())
+                        std::cout << "Successfully saved another " << fileNameFC << std::endl;
                     for (size_t i = 0; i < books.getSize(); i++)
                     {
                         output << books[i];
@@ -96,6 +100,8 @@ void Library::run()
                     if(answer == 'y' || answer == 'Y')
                     {
                         std::ofstream output(fileName,std::ios::trunc);
+                        if(output.good())
+                            std::cout << "Successfully closed.\n" << std::endl;
                         for (size_t i = 0; i < books.getSize(); i++)
                         {
                             output << books[i];
@@ -122,7 +128,7 @@ void Library::run()
                 logout();
             }
 
-        else if(strcmp(command, "books_all") == 0 || strcmp(command, "books_view") == 0)
+        else if(strcmp(command, "books_all") == 0)
             {
                 if(!openedFile)
                     std::cout<<"There isn't any opened file!\n";
@@ -130,7 +136,7 @@ void Library::run()
                     books_all();
             }
 
-        else if(strcmp(command, "books_info") == 0)
+        else if(strcmp(command, "books_info") == 0 || strcmp(command, "books_view") == 0)
             {
                 int Id;
                 std::cin>>Id;
@@ -234,12 +240,12 @@ void Library::swap(Book& a, Book& b)
 
 Library::Library() 
 {
-    User c("admin", "i<3c++"); // dali stava taka?? 
+    //User c("admin", "i<3c++");
     loggedIn = false;
     isAmdminn = true;
 }
 
-Library::Library(const Library& other)  // Не мисля че ми трябват
+Library::Library(const Library& other)  
 {
     books = other.books;
     users = other.users;
@@ -255,7 +261,7 @@ Library& Library::operator=(const Library& other)
     return *this;
 }
 
-void Library::print()
+void Library::print() const
 {
     std::cout<<"Books\n";
     books.print();
@@ -274,20 +280,21 @@ void Library::login()
         return;
     }
 
-    char nameFF[32];
+    char _name[32];
     std::cout << "Please, enter username: ";
-    std::cin>>nameFF;
-    String name(nameFF);
+    std::cin>>_name;
+    String name(_name);
 
-    char passFF[32];
+    char _pass[32];
     std::cout << "Please, enter password: ";
-    std::cin>>passFF;
-    String pass(passFF);
+    std::cin>>_pass;
+    String pass(_pass);
 
     if(name == "admin" && pass == "i<3c++")  
     {
         isAmdminn = true;
         loggedIn = true;
+        std::cout << "Logged in successfully as admin.\n" << std::endl; 
         return;
     }
     else isAmdminn = false;
@@ -378,7 +385,7 @@ void Library::books_find(String word, String keyword)
         return;
     }
 
-    String keyW = normalizeName(keyword); //интервалите не знам какво да ги правя // може би ще ги валидирам трябва да измисля как и къде
+    String keyW = normalizeName(keyword); 
 
     size_t n = books.getSize();
     if (word == "title")  
@@ -439,9 +446,6 @@ void Library::books_sort(const char* word, const char* type)
                     if(strcmp(books[i].getCharTitle(), books[j].getCharTitle()) < 0)
                     {
                         swap(books[i], books[j]);
-                        /*Book temp = books[i];
-                        books[i] = books[j];
-                        books[j] = temp;*/
                     }
                 }
                 else
@@ -525,7 +529,7 @@ void Library::books_sort(const char* word, const char* type)
     }
     else
     {
-        std::cout << "You have chosen wrong option!" << std::endl; //не е въведена правилно командата
+        std::cout << "You have chosen wrong option!" << std::endl;
     }
 
 }
@@ -554,9 +558,9 @@ void Library::users_add(String name, String password)
     }
 
     User newUser(name, password);
-    users.push_back(newUser);  // Koe??
+    users.push_back(newUser);  
     newUser.addToFile("Files\\users.mrs");
-    std::cout << "User addded successfully!" << std::endl;
+    std::cout << "User added successfully!" << std::endl;
 }
 
 void Library::users_remove(String name)
@@ -578,13 +582,9 @@ void Library::users_remove(String name)
         if (users[i].getUsername() == name)
         {
             users.popByIndex(i);
+            std::cout << "User removed successfully!" << std::endl;
             return;
         }
-        /*else
-        {
-            std::cout << "There is no user with this name!" << std::endl;
-            return;
-        }*/
     }
 }
 
@@ -612,7 +612,7 @@ void Library::books_add(String _author, String _title, String _genre, String _de
         }
     }
     
-    books.push_back(newBook);  // Koe??
+    books.push_back(newBook);  
     newBook.addToFile(fileName);
     std::cout << "Book added successfully!" << std::endl;
 }
@@ -636,52 +636,19 @@ void Library::books_remove(String name)
         if (books[i].getTitle() == name)
         {
             books.popByIndex(i);
-            return;  //Изтрих някакъв странен срр файл в който имаше единствено написано popByIndex и беше оцветено в синичко
-        }  //Ако няма такава книга в това заглавие какво правя???
-        /*else
-        {
-            std::cout << "There is no book with this title!" << std::endl;
-            return;
-        }*/
+            std::cout << "Book removed successfully!" << std::endl;
+            return;  
+        }  
     }
+    std::cout << "No book with this title!" << std::endl;
 }
 
-void Library::start()
-{
-    //std::cout << "Hello! Please enter a command!" << std::endl;
-    
-    
-    loggedIn = true;
-    isAmdminn = true;
-    //do
-    //{
-        
-    //} while ();
-    
-}
-
-
+/*
 int main1()
 {
-    /*
-    Book d21("Peshko", "iznaglqva", "drama", "shte bichi", 2021, "dosta neshta", 5);
-    Book d11("Maria", "Izchatka", "pusna mi", "Ne znae kakvo shte pravi", 2021, "nishto", 2.1);
-	Book d31("MSS", "nimibi", "drama", "Shte ima 2", 2021, "nishto nishto", 2.0);
-	Book d2("Fifi", "iznasq", "film", "ailqk", 2001, "i sq kvo", 3.59);
-    Book d("MIMI", "Poludqva", "drama", "Ne znae kakvo shte pravi", 2021, "neshto", 2.4);
-	Book d3("MS", "Bibibi", "drama queen", "Ne znae kakvo shte pravi veche", 2021, "neshto nishto", 2.4);
-    */
-/*
-    Vector<Book> books;
-    books.push_back(d21);
-    books.push_back(d11);
-    books.push_back(d31);
-    books.push_back(d2);
-    books.push_back(d);
-*/
 
     Library b;
-    b.start();
+    //b.start();
     b.books_add("MS", "Bibibi", "drama queen", "Ne znae kakvo shte pravi veche", 2021, "neshto nishto", 2.4);
     b.books_add("Peshko", "iznaglqva", "drama", "shte bichi", 2099, "dosta neshta", 5);
     b.books_add("Maria", "Akcentira", "pusna mi", "Ne znae kakvo shte pravi", 2021, "nishto", 2.1);
@@ -724,3 +691,4 @@ int main1()
 
    return 0;
 }
+*/

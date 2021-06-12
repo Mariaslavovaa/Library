@@ -25,22 +25,4 @@ class Command
         std::cout << " users add <user> <password>             add a new user with name <user> and password <password>  " << std::endl;
         std::cout << " users remove <user>                     deletes user with name <user>  " << std::endl;
     }
-
-    /*
-    books view  == books info
-    books add  //
-    books remove //
-    */
-
-
-    //exit
-    void exit()  // 
-    {
-        //system("cls");
-    	//std::cout << "THANK YOU! BBYE" << std::endl;
-    	//exit(1);
-        std::cout << " Thank you! You left the program." << std::endl;
-        //exit(0);
-    }
-
 };
